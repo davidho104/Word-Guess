@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Psychic</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <!--  <script src="main.js"></script> -->
+
+
+
+    <script type="text/javascript">
+
+        var wins = 0;
+        var losses = 0;
+        var guessesLeft = 5;
+        var words = ["texas", "california", "mississippi", "lousiana", "maine"];
+        var option = Math.floor(Math.random() * words.length);
+        var word = words[option];
+        var currentGuess = '';
+
+
+        function start() {
+
+            function restart() {
+                guessesLeft = 5;
+                guessesSoFar = 0;
+                option = Math.floor(Math.random() * words.length);
+                word = words[option];
+                currentGuess = '';
+            }
+            restart();
+
+            console.log(word);
+
+            for (i = 0; i < word.length; i++) {
+                currentGuess += "_";
+            }
+            console.log(currentGuess);
+            document.querySelector(".chars").innerHTML = currentGuess.split("").join(" ");
+            document.querySelector(".guessesLeft").innerHTML = guessesLeft
+
+            document.onkeyup = function (event) {
+                var userGuess2 = event.key; //placeholder to be made lower case
+                var userGuess = userGuess2.toLowerCase();
+                if (word.indexOf(userGuess) > -1) {
+                    for (let i = 0; i < word.length; i++) {
+                        if (word[i] == userGuess) {
+                            charArray = currentGuess.split("");
+                            charArray[i] = userGuess;
+                            currentGuess = charArray.join("");
+                        }
+                    }
+                } else {
+                    guessesLeft--;
+                }
+                if (currentGuess.indexOf("_") == -1) {
+                    wins++;
+                    document.querySelector(".wins").innerHTML = wins;
+                    start();
+                } else if (guessesLeft == 0) {
+                    losses++;
+                    document.querySelector(".losses").innerHTML = losses;
+                    start();
+                }
+                console.log(currentGuess);
+                document.querySelector(".chars").innerHTML = currentGuess.split("").join(" ");
+                document.querySelector(".guessesLeft").innerHTML = guessesLeft;
+            }
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <div id="game">
+        <p>Click to begin! Letters only</p>
+    </div>
+    <button onclick="start()">CLICK ME</button>
+    <ul>
+        <li>Word:
+            <span class="chars"></span>
+        </li>
+        <li>
+            Guesses Left:
+            <span class="guessesLeft"></span>
+        </li>
+        <li>
+            Wins:
+            <span class="wins"> 0</span>
+        </li>
+        <li>
+            Losses:
+            <span class="losses"> 0</span>
+        </li>
+    </ul>
+
+</body>
+
+</html>
